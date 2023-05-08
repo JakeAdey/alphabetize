@@ -38,6 +38,8 @@ def sort_variables(name=None):
                 updated_file += line + '\n'
                 variable_names = []
                 variable_lines = []
+        # Remove final newline created
+        updated_file = updated_file[0:-1]
         # Wipe file contents and write ordered contents
         file.seek(0)
         file.truncate()
