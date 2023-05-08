@@ -54,4 +54,9 @@ def parse_args():
         help="Filename to be sorted. Only works for .py files"
     )
     args = parser.parse_args()
-    sort_variables(args.filename[0])
+    return args.filename[0]
+
+
+def main():
+    filename = parse_args()
+    sort_variables(filename)
