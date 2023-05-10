@@ -22,12 +22,17 @@ def sort_variables(name=None):
                         variable_lines.sort()
                         for ordered_line in variable_lines:
                             updated_file += ordered_line + '\n'
-                        variable_names = [re.findall('\\w*(?= = )', string=line)[0]]
+                        variable_names = []
+                        for variable_name in re.findall('.*(?= = )', string=line)[0].replace(' ', '').split(','):
+                            variable_names.append(variable_name)
+                        # variable_names = [re.findall('\\w*(?= = )', string=line)[0]]
                         variable_lines = [line]
                         break
                 # No match means the variable is independent and can be added to the sort list
                 else:
-                    variable_names.append(re.findall('\\w*(?= = )', string=line)[0])
+                    for variable_name in re.findall('.*(?= = )', string=line)[0].replace(' ', '').split(','):
+                        variable_names.append(variable_name)
+                    # variable_names.append(re.findall('\\w*(?= = )', string=line)[0])
                     variable_lines.append(line)
             # No variable is found, so the variables array found before is sorted and added, before the current line
             # The variable name and line are reset to be empty as there are no variables present
@@ -39,7 +44,8 @@ def sort_variables(name=None):
                 variable_names = []
                 variable_lines = []
         # Remove final newline created
-        updated_file = updated_file[0:-1]
+        updated_file = updated_file.rstrip('\n')
+        updated_file = updated_file + '\n'
         # Wipe file contents and write ordered contents
         file.seek(0)
         file.truncate()
