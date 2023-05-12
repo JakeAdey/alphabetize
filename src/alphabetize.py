@@ -1,4 +1,6 @@
 import argparse
+import glob
+import pathlib
 import re
 
 
@@ -62,9 +64,33 @@ def parse_args():
         help="Filename to be sorted. Only works for .py files"
     )
     args = parser.parse_args()
-    return args.filename[0]
+    return args.filename
+
+
+def retrieve_files(pathname):
+    # If no path is parsed, all '.py' files are searched in the current directory
+    if not pathname:
+        directory_search = f"{pathlib.Path().resolve()}\\*.py"
+    # If an absolute directory is parsed, all '.py' files are searched in that directory
+    elif 'C:\\' in pathname[0]:
+        directory_search = f"{pathname[0]}\\*.py"
+    # If a relative directory is parsed, all '.py' files are searched in that directory
+    else:
+        print('here')
+        directory_search = f"{pathlib.Path().resolve()}\\{pathname[0]}\\*.py"
+    files = []
+    for path in glob.glob(directory_search):
+        files.append(path)
+    return files
 
 
 def main():
-    filename = parse_args()
-    sort_variables(filename)
+    pathname = parse_args()
+    # If the arg parsed contains '.py', that specific file is only used
+    if pathname and '.py' in pathname[0]:
+        sort_variables(pathname[0])
+    else:
+        # Retrieves a list of all files from the parsed argument
+        files = retrieve_files(pathname)
+        for file in files:
+            sort_variables(file)
