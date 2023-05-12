@@ -76,7 +76,6 @@ def retrieve_files(pathname):
         directory_search = f"{pathname[0]}\\*.py"
     # If a relative directory is parsed, all '.py' files are searched in that directory
     else:
-        print('here')
         directory_search = f"{pathlib.Path().resolve()}\\{pathname[0]}\\*.py"
     files = []
     for path in glob.glob(directory_search):
