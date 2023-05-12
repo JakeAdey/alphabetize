@@ -5,7 +5,7 @@ with open("README.md") as f1:
 
 setup(
     name='alphabetize',
-    version='0.0.13',
+    version='0.0.14',
     description='Alphabetize variables within your files',
     long_description=long_description,
     long_description_content_type="text/markdown",
